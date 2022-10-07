@@ -1,13 +1,24 @@
 import java.io.*;
+import java.io.File;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.util.List;
+import java.util.ArrayList;
 public class Main {
-    public static void main(String[] args) {
-        try (FileInputStream in = new FileInputStream("C:\\Users\\Юзер\\IdeaProjects\\project_\\src\\in.txt");
-             FileOutputStream os = new FileOutputStream("C:\\Users\\Юзер\\IdeaProjects\\project_\\src\\out.txt")) {
-            byte[] buffer = new byte[in.available()];
-            in.read(buffer, 0, buffer.length);
-            os.write(buffer, 0, buffer.length);
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+    public static void main(String[] args) throws FileNotFoundException {
+        File file = new File("input");
+        Scanner scan = new Scanner(file);
+        String str = scan.nextLine();
+        Pattern pattern = Pattern.compile("(\\d+(\\.\\d+)?)|(\\+|\\-|\\*|\\/)");
+        Matcher matcher = pattern.matcher(str);
+        List<String> strings = new ArrayList<>();
+        while (matcher.find()) {
+            strings.add(matcher.group());
         }
+        String s = strings.toString();
+        System.out.println(s.replaceAll ("^[-+/*]+|[-+/*]+$"," " ));
+        scan.close();
     }
 }
