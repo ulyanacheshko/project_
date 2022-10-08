@@ -1,6 +1,5 @@
 import java.io.*;
 import java.io.File;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -17,8 +16,7 @@ public class Main {
         while (matcher.find()) {
             strings.add(matcher.group());
         }
-        String s = strings.toString();
-        System.out.println(s.replaceAll ("^[-+/*]+|[-+/*]+$"," " ));
+        System.out.println(strings);
         scan.close();
     }
 }
