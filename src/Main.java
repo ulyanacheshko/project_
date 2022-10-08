@@ -1,13 +1,12 @@
+import java.io.*;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
-//import java.util.regex.Pattern;
-//import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.util.List;
 import java.util.ArrayList;
-
 public class Main {
-
     public static void main(String[] args) throws FileNotFoundException {
         File file = new File("input");
         Scanner scan = new Scanner(file);
@@ -16,7 +15,6 @@ public class Main {
         LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
         System.out.println(expr(lexemeBuffer));
     }
-
     public enum LexemeType {
         LEFT_BRACKET, RIGHT_BRACKET,
         OP_PLUS, OP_MINUS, OP_MUL, OP_DIV,
@@ -72,7 +70,7 @@ public class Main {
     public static List<Lexeme> lexAnalyze(String expText) {
         ArrayList<Lexeme> lexemes = new ArrayList<>();
         int pos = 0;
-        while (pos< expText.length()) {
+        while (pos < expText.length()) {
             char c = expText.charAt(pos);
             switch (c) {
                 case '(':
@@ -197,5 +195,4 @@ public class Main {
                         + " at position: " + lexemes.getPos());
         }
     }
-
 }
