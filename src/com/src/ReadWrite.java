@@ -1,4 +1,6 @@
 package com.src;
+import com.src.writers.Writer;
+
 import java.io.File;
 import java.io.IOException;
 

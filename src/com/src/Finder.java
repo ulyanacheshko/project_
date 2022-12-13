@@ -7,7 +7,6 @@ public interface Finder {
     public String FindFirst(String input);
 
     public String ReplaceFirst(String input, String replace);
-
     public boolean exists(String input);
 }
 

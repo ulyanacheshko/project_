@@ -7,7 +7,7 @@ public class Main {
         // write your code here//ZipControl
         ZipControl cntrl = new ZipControl();
         cntrl.Prepare();
-        cntrl.SetPath("/Users/maksim/IdeaProjects/ReadWrite/");
+        cntrl.SetPath("C://Users//Юзер//IdeaProjects//project_//src//com//src//ReadWrite.java");
         cntrl.SetArchiveName("testFile.zip");
         cntrl.SetFileName("testFile.txt");
         cntrl.Unzip();
