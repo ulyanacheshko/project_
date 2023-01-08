@@ -2,128 +2,224 @@ package com.src;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 public interface Finder {
 
-    public String FindFirst(String input);
+    String FindFirst(String input);
+    String ReplaceFirst(String input, String replace);
+    String GroupFind(int group, String input);
+    boolean exists(String input);
 
-    public String ReplaceFirst(String input, String replace);
-    public boolean exists(String input);
 }
 
-    class AlgebraicExpressionFinder implements Finder {
+class FindBrackets implements Finder {
 
-        Pattern pattern;
-        Matcher matcher;
+    Pattern pattern;
+    Matcher matcher;
 
-        AlgebraicExpressionFinder() {
-            pattern = Pattern.compile("[0-9]+\s*[+^*/-]\s*[0-9]+");
-        }
-
-        public String FindFirst(String input) {
-
-            String output;
-
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                output = input.substring(matcher.start(), matcher.end());
-            } else output = "";
-
-            return output;
-
-        }
-
-        public String ReplaceFirst(String input, String replace) {
-
-            String output;
-
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                output = matcher.replaceFirst(replace);
-            } else output = input;
-
-            return output;
-        }
-
-        public boolean exists(String input) {
-            matcher = pattern.matcher(input);
-            return matcher.find();
-        }
+    FindBrackets() {
+        pattern = Pattern.compile("[(][^)(]+[)]");
     }
-    class NumberFinder implements Finder {
 
-        Pattern pattern;
-        Matcher matcher;
+    @Override
+    public String FindFirst(String input) {
+        String output;
 
-        NumberFinder() {
-            pattern = Pattern.compile("[0-9]+");
+        Matcher matcher = pattern.matcher(input);
+        if(matcher.find()) {
+            output = input.substring(matcher.start(), matcher.end());
         }
+        else output = "";
 
-        public String FindFirst(String input) {
-
-            String output;
-
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                output = input.substring(matcher.start(), matcher.end());
-            } else output = "";
-
-            return output;
-
-        }
-
-        public String ReplaceFirst(String input, String replace) {
-
-            String output;
-
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                output = matcher.replaceFirst(replace);
-            } else output = input;
-
-            return output;
-        }
-
-        public boolean exists(String input) {
-            matcher = pattern.matcher(input);
-            return matcher.find();
-        }
+        return output;
     }
-    class OperationFinder implements Finder {
 
-        Pattern pattern;
-        Matcher matcher;
+    @Override
+    public String ReplaceFirst(String input, String replace) {
 
-        OperationFinder() {
-            pattern = Pattern.compile("[+^*/-]");
+        String output;
+
+        Matcher matcher = pattern.matcher(input);
+        if(matcher.find()) {
+            output = matcher.replaceFirst(replace);
         }
+        else output = input;
 
-        public String FindFirst(String input) {
-
-            String output;
-
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                output = input.substring(matcher.start(), matcher.end());
-            } else output = "";
-
-            return output;
-
-        }
-
-        public String ReplaceFirst(String input, String replace) {
-
-            String output;
-
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.find()) {
-                output = matcher.replaceFirst(replace);
-            } else output = input;
-
-            return output;
-        }
-
-        public boolean exists(String input) {
-            matcher = pattern.matcher(input);
-            return matcher.find();
-        }
+        return output;
     }
+
+    @Override
+    public boolean exists(String input) {
+        matcher = pattern.matcher(input);
+        return matcher.find();
+    }
+
+    @Override
+    public String GroupFind(int group, String input) {
+        matcher = pattern.matcher(input);
+        if(matcher.find()) return matcher.group(group);
+        else return null;
+    }
+
+}
+class FindCalculateTasks implements Finder {
+
+    Pattern pattern;
+    Matcher matcher;
+
+    String num = "-*[0-9]+[.]?[0-9]*";
+
+    FindCalculateTasks(int priority) {
+        if(priority >= 2) pattern = Pattern.compile( "(" + num + ")(\\s*[\\^]\\s*)(" + num + ")");
+        else if(priority == 1) pattern = Pattern.compile("(" + num + ")(\\s*[/*]\\s*)(" + num + ")");
+        else if(priority == 0) pattern = Pattern.compile("(" + num + ")(\\s*[+-]\\s*)(" + num + ")");
+        else pattern = Pattern.compile("(" + num + ")(\\s*[/*+^-]\\s*)(" + num + ")");
+    }
+
+    @Override
+    public String FindFirst(String input) {
+
+        String output;
+
+        Matcher matcher = pattern.matcher(input);
+        if(matcher.find()) {
+            output = input.substring(matcher.start(), matcher.end());
+        }
+        else output = "";
+
+        return output;
+
+    }
+
+    @Override
+    public String ReplaceFirst(String input, String replace) {
+
+        String output;
+
+        Matcher matcher = pattern.matcher(input);
+        if(matcher.find()) {
+            output = matcher.replaceFirst(replace);
+        }
+        else output = input;
+
+        return output;
+    }
+
+    @Override
+    public boolean exists(String input) {
+        matcher = pattern.matcher(input);
+        return matcher.find();
+    }
+
+    @Override
+    public String GroupFind(int group, String input) {
+        matcher = pattern.matcher(input);
+        if(matcher.find()) return matcher.group(group);
+        else return null;
+    }
+}
+class FindSymbols implements Finder {
+
+    Pattern pattern;
+    Matcher matcher;
+
+    String charToFind;
+
+    FindSymbols(String input) {
+        charToFind = input;
+        pattern = Pattern.compile(String.valueOf(charToFind));
+    }
+
+    @Override
+    public String FindFirst(String input) {
+        String output;
+
+        Matcher matcher = pattern.matcher(input);
+        if(matcher.find()) {
+            output = input.substring(0, matcher.end());
+        }
+        else output = "";
+
+        return output;
+    }
+
+    @Override
+    public String ReplaceFirst(String input, String replace) {
+
+        String output;
+
+        Matcher matcher = pattern.matcher(input);
+        if(matcher.find()) {
+            output = matcher.replaceFirst(replace);
+        }
+        else output = input;
+
+        return output;
+    }
+
+    @Override
+    public boolean exists(String input) {
+        matcher = pattern.matcher(input);
+        return matcher.find();
+    }
+
+    @Override
+    public String GroupFind(int group, String input) {
+        matcher = pattern.matcher(input);
+        if(matcher.find()) return matcher.group(group);
+        else return null;
+    }
+
+}
+class FindHeaderOfXmlFiles implements Finder{
+
+    Pattern pattern;
+    Matcher matcher;
+
+    FindHeaderOfXmlFiles() {
+        pattern = Pattern.compile("<\\?xml.+\\?>");
+    }
+
+    @Override
+    public String FindFirst(String input) {
+        String output;
+
+        Matcher matcher = pattern.matcher(input);
+        if(matcher.find()) {
+            output = input.substring(matcher.start(), matcher.end());
+        }
+        else output = "";
+
+        return output;
+    }
+
+    @Override
+    public String ReplaceFirst(String input, String replace) {
+
+        String output;
+
+        Matcher matcher = pattern.matcher(input);
+        if(matcher.find()) {
+            output = matcher.replaceFirst(replace);
+        }
+        else output = input;
+
+        return output;
+    }
+
+    @Override
+    public boolean exists(String input) {
+        matcher = pattern.matcher(input);
+        return matcher.find();
+    }
+
+    @Override
+    public String GroupFind(int group, String input) {
+        matcher = pattern.matcher(input);
+        if(matcher.find()) return matcher.group(group);
+        else return null;
+    }
+
+}
+
+

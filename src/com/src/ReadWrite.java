@@ -1,76 +1,127 @@
 package com.src;
-import com.src.writers.Writer;
 
-import java.io.File;
-import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.util.Objects;
 
 public class ReadWrite {
-
-    boolean wasZipped = false;
-    boolean wasEncrypted = false;
 
     private Reader reader;
     private Writer writer;
 
-    private ZipControl cntrl = new ZipControl();
+    private PathCheck outputFile;
+    private PathCheck inputFile;
+    private PathCheck inputPath;
 
-    private String filePath = "/Users/maksim/IdeaProjects/ReadWrite/default.zip";
-    private String path = "";
-    private String fileName;
-    private String tempDir = "temp/";
-    private String outputDir = "output/";
-    private String readPath;
-    private String writePath;
+    private CorrectFiles correctFiles;
 
-    ReadWrite(String filePath){
+    private String filePath;
+
+    public ReadWrite(String filePath){
         this.filePath = filePath;
+        inputPath = new PathCheck(this.filePath);
+        correctFiles = new CorrectFiles();
     }
 
     public void setReader(Reader reader) {
         this.reader = reader;
     }
-    public void SetWriter(Writer writer) {
+    public void setWriter(Writer writer) {
         this.writer = writer;
     }
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
+    public void setNeedToWrap(boolean needToWrap) {
+        correctFiles.setNeedToWrapBack(needToWrap);
+    }
+    public void setEncryptKey(String encryptKey) throws InvalidKeyException {
+        correctFiles.setEncryptKey(encryptKey);
+    }
+    public void setOutputPath(String outputPath) {
+        inputPath.setOutputDir(outputPath);
+    }
+    public void setTempPath(String tempPath) {
+        inputPath.setTempDir(tempPath);
+    }
+    public String inputFileExtension() {
 
-    public void Prepare() throws IOException {
-
-        boolean created;
-
-        File temp = new File(path  + tempDir);
-        created = temp.mkdir();
-        File output = new File(path + outputDir);
-        created = output.mkdir();
-
-        int fileNameStart = 0;
-        fileNameStart = this.filePath.lastIndexOf('/');
-        if(fileNameStart != -1) {
-            this.fileName = filePath.substring(fileNameStart + 1);
-            this.path = filePath.substring(0, fileNameStart + 1);
+        int fileExtensionStart = 0;
+        String output = null;
+        fileExtensionStart = this.inputFile.getFileName().lastIndexOf('.');
+        if(fileExtensionStart != -1) {
+            output = inputFile.getFileName().substring(fileExtensionStart);
         }
-        else fileName = filePath;
-
-        if(fileName.endsWith(".zip")) {
-
-            wasZipped = true;
-
-            //cntrl.Unzip(filePath,path + tempDir);
-        }
+        return output;
 
     }
 
-    public void End() {
+    public void Prepare() throws Exception {
 
-        boolean created;
+        inputPath.CreateDirs();
 
-        File temp = new File(path + tempDir);
-        created = temp.delete();
-        //File output = new File(path + outputDir);
-        //created = output.delete();
+        inputFile = inputPath;
+        correctFiles.setInputFile(inputFile);
+        correctFiles.PrepareFile();
+        outputFile = correctFiles.getOutputFile();
+        inputFile = correctFiles.getInputFile();
 
+        if(outputFile == null) {
+            outputFile = new PathCheck(inputFile.OutputDir() + inputFile.getFileName());
+        }
+
+        if(!inputFile.isSupported()) throw new IllegalArgumentException("This exception of file is not supported");
+
+    }
+    public void RandWSet() {
+
+        String extension = inputFileExtension();
+        Reader r = null;
+        Writer w = null;
+
+        if (Objects.equals(extension, ".txt")) {
+
+            r = new TxtReader();
+            w = new TxtWriter();
+
+        } else if (Objects.equals(extension, ".xml")) {
+
+            r = new XmlReader();
+            w = new XmlWriter();
+
+        }
+
+        setWriter(w);
+        setReader(r);
+    }
+    public void Process() throws Exception {
+
+        String buffer;
+        String output;
+
+        reader.Open(inputFile.getFilePath());
+        writer.Open(outputFile.getFilePath());
+
+        while(reader.HasNextLine()) {
+
+            buffer = reader.ReadLine();
+            if(buffer != null ) {
+                output = Calculator.Process(buffer);
+                writer.WriteLine(output);
+            }
+
+        }
+
+        reader.Close();
+        writer.Close();
+
+    }
+    public PathCheck End(boolean needToDelTemp) throws Exception {
+        PathCheck output = correctFiles.ReturnFile();
+        inputPath.ClearTemp(needToDelTemp);
+        return output;
+    }
+    public PathCheck End() throws Exception {
+        return End(false);
     }
 
 }
