@@ -9,19 +9,18 @@ public class Interface {
     Scanner in = new Scanner(System.in);
     ReadWrite rw;
 
-    public void Start() throws Exception {
+    public void Calculate() throws Exception {
         FilePreparation();
         RAndWSet();
         rw.Process();
         rw.End();
-        System.out.println("Program output is written to output directory");
+        System.out.println("The Calculations are in the output: ");
     }
     public void FilePreparation() throws Exception {
         boolean correctFile = false;
         while(!correctFile) {
             PathCheck filePath = PathInput();
             boolean correctPrepare = false;
-
             rw = new ReadWrite(filePath.getFilePath());
             while (!correctPrepare) {
                 try {

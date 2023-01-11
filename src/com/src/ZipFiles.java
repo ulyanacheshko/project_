@@ -41,7 +41,7 @@ public class ZipFiles {
             String filename;
 
             entry=zin.getNextEntry();
-            if(entry == null) throw new NotDirectoryException("It is not zip file");
+            if(entry == null) throw new NotDirectoryException("This file isn't zip");
 
             while(entry != null){
 
