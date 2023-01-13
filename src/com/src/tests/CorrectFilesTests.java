@@ -68,7 +68,7 @@ public class CorrectFilesTests {
     @Test
     public void prepareZippedTxtFile() throws Exception {
 
-        PathCheck ZippedTxt = new PathCheck("/Users/ёзер/IdeaProjects/project_/TestFiles/ZipFile.zip");
+        PathCheck ZippedTxt = new PathCheck("/Users/ёзер/IdeaProjects/project_/TestFiles/ZipTxtFile.zip");
         PathCheck outputFile;
 
         CorrectFiles fileNormaliser = new CorrectFiles();

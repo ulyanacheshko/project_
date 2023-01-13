@@ -37,15 +37,17 @@ class TxtWriter implements Writer {
 class XmlWriter implements Writer {
 
     XMLStreamWriter xmlw;
+
     boolean startBefore;
     boolean textBefore;
     int tabNum;
 
     @Override
     public void Open(String fileName) throws IOException, XMLStreamException {
+
         XMLOutputFactory output = XMLOutputFactory.newInstance();
         xmlw = output.createXMLStreamWriter(new FileWriter(fileName));
-        xmlw.writeStartDocument("UTF-8","1.0");
+        xmlw.writeStartDocument("Cp1251","1.0");
         xmlw.writeCharacters("\n");
 
         startBefore = false;

@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/TestFiles/NewTxtEnc.enc" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/TestFiles/NewTxtEnc.enc" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/TestFiles/temp/EncFiletxt" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/TestFiles/temp/NewTxtEnc" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/com/src/Calculator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/Commands.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/CorrectFiles.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/Encrypt.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/FileNameControl.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/Finder.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/Interface.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/Main.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/PathCheck.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/ReadWrite.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/Reader.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/Writer.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/ZipFiles.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/com/src/tests/EncryptTests.java" charset="UTF-8" />
     <file url="PROJECT" charset="windows-1251" />
   </component>
 </project>
