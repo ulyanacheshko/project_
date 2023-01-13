@@ -1,5 +1,0 @@
-some text 36.0 and more text
-a lot 13.404761904761905 of text here
-maybe some 15504.0 text
-... a lot of text 86.33333333333333
-and some double 2.736

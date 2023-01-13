@@ -5,5 +5,11 @@ public class Main {
         Interface anInterface = new Interface();
         anInterface.Calculate();
         PathCheck pathCheck = new PathCheck("/IdeaProjects/project_/testFile.rtf");
+        Encrypt encrypt = new Encrypt("KeyIsVerySecret1");
+        encrypt.EncryptFile(pathCheck,"");
+        //ZipControl.Zip(pathControl,"","testFile\\\\zippedUnsupported.zip");
+
+        //CommandLineControl.Process(args);
+
     }
 }
